@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;DigitalPadlock/n.asm&apos; to &apos;main.asm&apos;" description="Rename resource &apos;n.asm&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="n.asm" name="main.asm" stamp="1484679265310" updateReferences="true"/>
+</session>

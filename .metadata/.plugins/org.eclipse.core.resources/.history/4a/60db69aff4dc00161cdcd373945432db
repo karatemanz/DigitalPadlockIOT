@@ -1,0 +1,18 @@
+.thumb
+.text
+	.align 2
+
+	.global main
+	.thumbfunc main
+
+main: .asmfunc
+
+running
+    MOVT R0, #0x4000 ; This sets the first 16-bits
+	MOV R0, #0x4c00	 ; This sets the next 16-bits
+
+	;LDRB R0, [R0, #0x01] 	   ; Load address of P2IN into R0 (gpr0)
+
+	B running
+
+.end

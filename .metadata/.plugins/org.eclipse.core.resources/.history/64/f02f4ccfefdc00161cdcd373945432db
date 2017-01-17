@@ -1,0 +1,46 @@
+.thumb
+.text
+	.align 2
+
+	.global main
+	.thumbfunc main
+
+main: .asmfunc
+; This line is a comment. Your program goes here
+; Add LOTS of Comments!
+
+; RED LED (LED 1)
+; P1IN  => 0x40004c00
+; P1OUT => 0x40004c02
+
+; TRI-RGB LED (LED 2)
+; P2IN  => 0x40004c01
+; P2OUT => 0x40004c03
+; P2.0  => 0x40005010
+; P2.1  => 0x40005011
+; P2.2  => 0x40005012
+
+; set addresses for outpus (to led) for the tri-rgb and red led
+
+; redled1 - P.0 -
+
+	;RGB_RED_VAL = 0x02;
+	;RGB_GREEN_VAL = 0x04;
+	;RGB_BLUE_VAL = 0x08;
+
+	; set addresses for inputs (switch 1 [left] and switch 2 [right])
+
+	;SW1_IN_ADDR =
+	;SW2_IN_ADDR =
+
+running
+
+foo MOV R0, #0x00 ; This is a sample line of code with a label ‘foo’
+
+	LDRB R0, [R0, #0x001] 	  ; Load address of P2IN into R0 (gpr0)
+	STRB R1, [R0, #0x005]       ; Load address of P1IN into R1 (gpr1)
+
+
+	;j running
+
+.end

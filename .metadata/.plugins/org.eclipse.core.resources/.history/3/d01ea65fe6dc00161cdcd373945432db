@@ -1,0 +1,47 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+# Add inputs and outputs from these tool invocations to the build variables 
+CMD_SRCS += \
+../msp432p401r.cmd 
+
+ASM_SRCS += \
+../n.asm 
+
+C_SRCS += \
+../startup_msp432p401r_ccs.c \
+../system_msp432p401r.c 
+
+OBJS += \
+./n.obj \
+./startup_msp432p401r_ccs.obj \
+./system_msp432p401r.obj 
+
+ASM_DEPS += \
+./n.d 
+
+C_DEPS += \
+./startup_msp432p401r_ccs.d \
+./system_msp432p401r.d 
+
+C_DEPS__QUOTED += \
+"startup_msp432p401r_ccs.d" \
+"system_msp432p401r.d" 
+
+OBJS__QUOTED += \
+"n.obj" \
+"startup_msp432p401r_ccs.obj" \
+"system_msp432p401r.obj" 
+
+ASM_DEPS__QUOTED += \
+"n.d" 
+
+ASM_SRCS__QUOTED += \
+"../n.asm" 
+
+C_SRCS__QUOTED += \
+"../startup_msp432p401r_ccs.c" \
+"../system_msp432p401r.c" 
+
+
