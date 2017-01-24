@@ -1,0 +1,68 @@
+.thumb
+.text
+	.align 2
+
+	.global main
+	.thumbfunc main
+
+main: .asmfunc
+
+	; Base Address of Port Mappings
+    MOV R0, #0x4c00
+    MOVT R0, #0x4000
+
+	;Settings for Port 1 					[000S00SL]
+	MOV R1, #0xFF			 	;				2  1
+	MOV R2, #0x00
+	STRB R2, [R0, #0x04]	   	; P1DIR	 => [00000000] = 0 (Input Mode for SWITCHes)
+	STRB R1, [R0, #0x06]		; P1REN  =>	[11111111] = 1 (Registers for each SWITCH and LED)
+	;STRB R2, [R0, #0x08]		; P1SEL0 => [00000000] = 0 --> General Purpose Register Option
+	;STRB R2, [R0, #0x0A]		; P1SEL1 => [00000000] = 0 -/
+
+	;Settings for Port 2 					[00000BGR]
+	MOV R1, #0x07
+	MOV R2, #0x00
+	STRB R1, [R0, #0x05]	   	; P2DIR	 => [00000111] = 1 (Output Mode For LEDs)
+	STRB R1, [R0, #0x07]		; P2REN  =>	[00000111] = 1 (Registers for each position of LED)
+	STRB R2, [R0, #0x0B]		; P2SEL0 => [00000000] = 0 --> General Purpose Register Option
+	STRB R2, [R0, #0x0D]		; P2SEL1 => [00000000] = 0 -/
+
+	; Initialize P2OUT to Display BLUE LED
+	MOV R1, #0x04				; [00000100] B__
+	STRB R1, [R0, #0x03] 		; P2OUT => 0x40004C03
+
+running ; Start main loop of padlock program
+
+	; Check both input switches
+	LDRB R3, [R0, #0x00]	; P1IN => 0x40004C00
+
+	CBZ R3, blue
+	; If R2 contains 0x02 SWITCH 1 is being pressed
+	SUB R6, R3, #0x02
+	CBZ R6, red
+	; If R2 contains 0x10 SWITCH 2 is being pressed
+	SUB R6, R3, #0x10
+	CBZ R6, red
+	; If R2 contains 0x12 Both SWITCHes are pressed
+	SUB R6, R3, #0x12
+	CBZ R6, green
+blue
+	MOV R5, #0x04				; [00000100] B__
+	STRB R5, [R0, #0x03] 		; P2OUT => 0x40004C03
+	B statusSet
+
+green
+	MOV R5, #0x02				; [00000010] _G_
+	STRB R5, [R0, #0x03] 		; P2OUT => 0x40004C03
+	B statusSet
+
+red
+	MOV R5, #0x01				; [00000001] __R
+	STRB R5, [R0, #0x03] 		; P2OUT => 0x40004C03
+
+statusSet
+
+	B running
+
+
+.end

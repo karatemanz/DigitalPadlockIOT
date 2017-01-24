@@ -1,0 +1,62 @@
+; Daniel Bednarczyk
+; ECE 1188
+; Lab 1
+; 1-24-17
+
+.thumb
+.text
+	.align	2
+
+	.global main
+	.thumbfunc main
+
+main: .asmfunc
+
+	; BASE ADDRESS: 0x40004C00
+	MOV 	R2, #0x4C00
+	MOVT 	R2, #0x4000
+
+	; Conifigure port 1 registers (Buttons)
+	MOV 	R1, #0x00
+	STRB    R1, [R2, #0x04]	; PxDIR		0000 0000	0x40004C04	Input
+	MOV 	R1, #0xFF
+	STRB    R1, [R2, #0x06]	; PxREN		1111 1111 	0x40004C06
+
+	; Conifigure port 2 registers (LEDs)
+	MOV 	R1, #0x07
+	STRB    R1, [R2, #0x05]	; PxDIR		0000 0111	0x40004C05	Output
+	MOV 	R1, #0xFF
+	STRB    R1, [R2, #0x07]	; PxREN		1111 1111 	0x40004C07
+	MOV 	R1, #0x0
+	STRB    R1, [R2, #0x09]	; PxDS		0000 0000	0x40004C09
+	STRB    R1, [R2, #0x0B]	; PxSEL0	0000 0000	0x40004C0B
+	STRB    R1, [R2, #0x0D]	; PxSEL1	0000 0000	0x40004C0D
+
+
+loop	MOV 	R3, #0x00
+		LDRB	R3, [R2, #0x00]		; Read buttons
+		AND		R3, R3, #0x12		; Isolate buttons
+
+		; Both pressed
+		CMP 	R3, #0x0
+		BEQ		green
+
+		; Neither pressed
+		CMP 	R3, #0x12
+		BEQ		blue
+
+		; Invalid combination
+red		MOV 	R1, #0x1
+		STRB    R1, [R2, #0x03]	; Red
+		B		loop
+
+green	MOV 	R1, #0x2
+		STRB    R1, [R2, #0x03]	; Green
+		B		loop
+
+blue	MOV 	R1, #0x4
+		STRB    R1, [R2, #0x03]	; Blue
+		B		loop
+
+.end
+
